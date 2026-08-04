@@ -33,23 +33,25 @@ FEEDBACK_CSV = "feedback_esperti.csv"
 # ==========================================
 
 def carica_esempi_journaling():
-    # Specifiche il percorso corretto dentro la cartella 'dataset'
-    file_csv = os.path.join("dataset", "conversazione_semiseria.csv")
-    esempi_prompt = ""
+    # Elenco dei file CSV da caricare
+    file_csv_list = [
+        os.path.join("dataset", "conversazione_frivola.csv"),
+        os.path.join("dataset", "conversazione semiseria.csv")
+    ]
     
-    if os.path.exists(file_csv):
-        try:
-            df = pd.read_csv(file_csv)
-            esempi_prompt = "\n\n### ESEMPI DI DIALOGHI MULTI-TURNO DA IMITARE (Osserva il ritmo e lo stile tra amico e utente):\n"
-            
-            # Raggruppa le battute per ogni singola conversazione
-            for conv_id, group in df.groupby('id_conversazione'):
-                esempi_prompt += f"\n--- Conversazione Esempio {conv_id} ---\n"
-                for _, row in group.iterrows():
-                    esempi_prompt += f"{row['ruolo'].capitalize()}: \"{row['testo']}\"\n"
-        except Exception as e:
-            pass
-            
+    esempi_prompt = "\n\n### ESEMPI DI DIALOGHI MULTI-TURNO DA IMITARE:\n"
+    
+    for file_csv in file_csv_list:
+        if os.path.exists(file_csv):
+            try:
+                df = pd.read_csv(file_csv)
+                for conv_id, group in df.groupby('id_conversazione'):
+                    esempi_prompt += f"\n--- Conversazione Esempio {conv_id} ---\n"
+                    for _, row in group.iterrows():
+                        esempi_prompt += f"{row['ruolo'].capitalize()}: \"{row['testo']}\"\n"
+            except Exception:
+                pass
+                
     return esempi_prompt
 
 # Prompt per la modalità Diario (Paziente)
