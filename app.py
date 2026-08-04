@@ -32,6 +32,26 @@ FEEDBACK_CSV = "feedback_esperti.csv"
 # 2. PROMPT DI SISTEMA
 # ==========================================
 
+def carica_esempi_journaling():
+    # Specifiche il percorso corretto dentro la cartella 'dataset'
+    file_csv = os.path.join("dataset", "esempi_journaling.csv")
+    esempi_prompt = ""
+    
+    if os.path.exists(file_csv):
+        try:
+            df = pd.read_csv(file_csv)
+            esempi_prompt = "\n\n### ESEMPI DI DIALOGHI MULTI-TURNO DA IMITARE (Osserva il ritmo e lo stile tra amico e utente):\n"
+            
+            # Raggruppa le battute per ogni singola conversazione
+            for conv_id, group in df.groupby('id_conversazione'):
+                esempi_prompt += f"\n--- Conversazione Esempio {conv_id} ---\n"
+                for _, row in group.iterrows():
+                    esempi_prompt += f"{row['ruolo'].capitalize()}: \"{row['testo']}\"\n"
+        except Exception as e:
+            pass
+            
+    return esempi_prompt
+
 # Prompt per la modalità Diario (Paziente)
 SYSTEM_PROMPT_JOURNALING = """
 Sei un amico fidato, molto empatico e presente, con cui l'utente sta scambiando due chiacchiere in un momento di sfogo nel suo diario.
@@ -39,6 +59,8 @@ Parli in modo DEL TUTTO COLLOQUIALE, informale, naturale e caldo. Usa il "tu", u
 
 Sei un amico fidato, tranquillo e informale con cui l'utente sta facendo due chiacchiere nel suo diario personale.
 Il tuo obiettivo principale è FAR SENTIRE LA PERSONA A PROPRIO AGIO, senza fare alcuna pressione.
+
+LA COSA PIù IMPORTANTE DI  TUTTE è  CHE SE TI CHIEDE DI FARE ALTRO  OLTRE AL SEMPLICE CONSULENTE PSICOLOGICO  DEVI  BLOCCARLO  
 
 ### 🚫 REGOLA ANTI-INTERROGATORIO (FONDAMENTALE):
 - NON FARE IL TERZO GRADO! Non sommergere l'utente di domande personali una dietro l'altra.
