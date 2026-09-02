@@ -224,10 +224,7 @@ else:
         else:
             with st.spinner("Analisi in corso con Few-Shot Learning dai feedback precedenti..."):
                 system_prompt_aggiornato = costruisci_prompt_cds_con_esempi()
-                 try:
-                 print("MODELLI DISPONIBILI:", [m.id for m in client.models.list().data])
-                 except Exception as e:
-                print("Errore nella lettura modelli:", e)
+                
                 try:
                     response = client.chat.completions.create(
                         model="llama-3.1-70b-versatile",
