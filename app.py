@@ -227,7 +227,7 @@ else:
                 
                 try:
                     response = client.chat.completions.create(
-                        model="llama3-70b-8192",
+                        model="groq/compound",
                         messages=[
                             {"role": "system", "content": system_prompt_aggiornato},
                             {"role": "user", "content": testo_paziente}
