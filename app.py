@@ -188,7 +188,7 @@ if modalita == "👤 Diario Personale (Journaling)":
         with st.chat_message("assistant"):
             try:
                 response = client.chat.completions.create(
-                  model="llama-3.3-70b-versatile", 
+                  model="llama-3.3-8b-instant", 
                   messages=st.session_state.journal_messages,
                   temperature=0.3,
                   response_format={"type": "json_object"}
