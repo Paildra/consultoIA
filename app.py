@@ -191,7 +191,7 @@ if modalita == "👤 Diario Personale (Journaling)":
                   model="groq/compound", 
                   messages=st.session_state.journal_messages,
                   temperature=0.3,
-                  response_format={"type": "json_object"}
+                  
                 )
                 bot_reply = response.choices[0].message.content
                 st.write(bot_reply)
