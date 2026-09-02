@@ -189,8 +189,8 @@ if modalita == "👤 Diario Personale (Journaling)":
             try:
                 response = client.chat.completions.create(
                   model="llama-3.3-70b-versatile", 
-                  messages=st.session_state.journal_messages,,
-                  temperature=0.1,
+                  messages=st.session_state.journal_messages,
+                  temperature=0.3,
                   response_format={"type": "json_object"}
                 )
                 bot_reply = response.choices[0].message.content
